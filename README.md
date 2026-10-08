@@ -2,8 +2,8 @@
 
 A full-stack implementation of the production batch verification checkpoint for a garment factory. No cutting batch can reach the Sewing Queue without component-by-component verification by an authorized Cutting Verifier. The rule is enforced on the server, not just in the UI.
 
-**Live demo:** YOUR_LIVE_URL
-**Repository:** https://github.com/YOUR_GITHUB_USERNAME/apparelflow
+**Live demo:** [https://github.com/haamidha-hue/apparelflow]
+**Repository:** [https://github.com/haamidha-hue/apparelflow]
 
 ## Demo credentials
 
@@ -28,7 +28,6 @@ The login page has a demo panel, and every screen has a role switcher in the hea
 
 ## Architecture
 
-```
 app/
   api/auth/*              login, logout, me
   api/orders              create order            (cutting_supervisor)
@@ -49,17 +48,17 @@ prisma/
   schema.prisma    relational schema
   seed.ts          users and recipes
 tests/             Vitest suite
-```
+
 
 ### State machine
 
-```
+
 CUTTING_IN_PROGRESS --submit--> PENDING_VERIFICATION --approve--> VERIFIED --start--> SEWING_STARTED
                                         |
                                      reject (reason required)
                                         v
                                     REJECTED --resubmit--> PENDING_VERIFICATION
-```
+
 
 Every transition is an atomic database update with the expected current status in the `WHERE` clause (for example `updateMany where status = PENDING_VERIFICATION`). Two simultaneous requests cannot both succeed, and an order in the wrong state cannot be moved.
 
@@ -91,30 +90,28 @@ Fabric wastage % = ((actual fabric - expected fabric) / expected fabric) x 100, 
 
 ## Run locally
 
-```bash
+
 npm install
-```
+
 
 Create `.env` in the project root:
 
-```env
+
 DATABASE_URL="postgresql://user:password@host/dbname?sslmode=require"
 JWT_SECRET="a-random-string-of-at-least-32-characters"
-```
 
-```bash
 npx prisma migrate deploy
 npm run db:seed
 npm run dev
-```
+
 
 Open http://localhost:3000.
 
 ## Tests
 
-```bash
+
 npm test
-```
+
 
 Nine tests cover: approval of an all-GREEN order, 422 on a RED shortage (and rollback), 422 on uncounted components, YELLOW excess still allowed, 400 on rejection without a reason, 403 for non-verifier roles, 401 when logged out, and sewing queue isolation. The tests call the real route handlers against the real database, with only the session faked. Test data is prefixed `TEST-` and deleted afterwards.
 
