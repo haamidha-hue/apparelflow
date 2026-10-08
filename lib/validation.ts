@@ -12,8 +12,9 @@ const nonNegativeInt = (label: string) =>
   z
     .number({ invalid_type_error: `${label} must be a number` })
     .int(`${label} must be a whole number`)
-    .min(0, `${label} cannot be negative`);
-
+    .min(0, `${label} cannot be negative`)
+    .max(1000000, `${label} is too large`);
+    
 export const loginSchema = z.object({
   email: z.string().trim().min(1, "Email is required").email("Enter a valid email"),
   password: z.string().min(1, "Password is required"),
