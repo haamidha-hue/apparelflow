@@ -2,7 +2,7 @@
 
 A full-stack implementation of the production batch verification checkpoint for a garment factory. No cutting batch can reach the Sewing Queue without component-by-component verification by an authorized Cutting Verifier. The rule is enforced on the server, not just in the UI.
 
-**Live demo:** [https://github.com/haamidha-hue/apparelflow]
+**Live demo:** [https://apparelflow-weld.vercel.app]
 **Repository:** [https://github.com/haamidha-hue/apparelflow]
 
 ## Demo credentials
